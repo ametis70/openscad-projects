@@ -1,0 +1,16 @@
+{
+    "parameterSets": {
+        "design default values": {
+            "$fn": "80",
+            "bottom_diameter": "63.5",
+            "faces": "40",
+            "height": "40",
+            "rotation": "80",
+            "top_diameter": "50",
+            "wedge_depth": "30",
+            "wedge_inner_diameter": "10",
+            "wedge_wall_thickness": "2"
+        }
+    },
+    "fileFormatVersion": "1"
+}
