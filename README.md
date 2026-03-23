@@ -13,6 +13,7 @@ designed in [OpenSCAD](https://openscad.org) using [BOSL2](https://github.com/Be
 ## Projects
 
 - **[keyhole-pegboard-adapter](projects/keyhole-pegboard-adapter/)** — Customizable adapters for mounting devices to keyhole pegboard systems
+- **[keyhole-pegboard-spool-holder](projects/keyhole-pegboard-spool-holder/)** — Filament spool holder with parametric keyhole pegs for pegboard mounting
 - **[mate-base](projects/mate-base/)** — Twisted, tapered holder base for mate and similar cylindrical containers
 - **[pcie-riser-bracket-tt-core-p3](projects/pcie-riser-bracket-tt-core-p3/)** — Parametric vertical GPU mounting bracket for Thermaltake Core P3 case
 - **[under-desk-holder](projects/under-desk-holder/)** — Parametric holder for mounting box-shaped devices underneath desks

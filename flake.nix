@@ -56,6 +56,7 @@
             "projects/pcie-riser-bracket-tt-core-p3|cooler_master_pcie4.stl|45|Default"
             "projects/under-desk-holder|benq.stl|45|Default"
             "projects/under-desk-holder|nexode.stl|135|Default"
+            "projects/keyhole-pegboard-spool-holder|main.stl|45|Default"
           )
 
           # Render each STL file
