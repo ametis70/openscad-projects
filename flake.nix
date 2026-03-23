@@ -40,7 +40,7 @@
           # Hardcoded list of STL files to render with their settings
           # Format: "project_dir|filename|z_rotation|material_name"
           declare -a renders=(
-            "projects/keyhole-pegboard-adapter|example_holes.stl|45|Default"
+            "projects/keyhole-pegboard-adapter|example_holes.stl|135|Default"
             "projects/keyhole-pegboard-adapter|example_pegs.stl|45|Default"
           )
 
