@@ -81,12 +81,19 @@ Adjust per device:
 
 ### Renders
 
-<img src="img/renders/example_pegs.png" width="400" alt="Example with device pegs">
-<img src="img/renders/example_holes.png" width="400" alt="Example with screw holes">
+<p float="left">
+  <img src="img/renders/example_pegs.png" width="400" alt="Example with device pegs">
+  <img src="img/renders/example_holes.png" width="400" alt="Example with screw holes">
+</p>
 
 ### Photos
 
-<img src="img/photos/wall.jpg" width="400" alt="Pegboard wall setup">
-<img src="img/photos/switch.jpg" width="400" alt="Network switch mounted">
-<img src="img/photos/power_strip.jpg" width="400" alt="Power strip mounted">
-<img src="img/photos/mini_pc.jpg" width="400" alt="Mini PC mounted">
+<p float="left">
+  <img src="img/photos/wall.jpg" width="400" alt="Pegboard wall setup">
+  <img src="img/photos/switch.jpg" width="400" alt="Network switch mounted">
+</p>
+
+<p float="left">
+  <img src="img/photos/power_strip.jpg" width="400" alt="Power strip mounted">
+  <img src="img/photos/mini_pc.jpg" width="400" alt="Mini PC mounted">
+</p>

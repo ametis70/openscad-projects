@@ -64,5 +64,7 @@ To customize for your mate:
 
 ### Photos
 
-<img src="img/mate_1.jpg" width="400" alt="Mate base with mate">
-<img src="img/mate_2.jpg" width="400" alt="Mate base detail view">
+<p float="left">
+  <img src="img/photos/mate_1.jpg" width="400" alt="Mate base with mate">
+  <img src="img/photos/mate_2.jpg" width="400" alt="Mate base detail view">
+</p>
