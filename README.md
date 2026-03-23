@@ -42,10 +42,26 @@ direnv allow
 The flake includes a `render-stls` script that automatically renders STL files to PNG images using Blender. The script is configured with a hardcoded list of files to render and their parameters (rotation, material, etc.).
 
 ```bash
+# Render all projects
 render-stls
+
+# Render specific project only
+render-stls keyhole-pegboard-adapter
+render-stls mate-base
 ```
 
 Rendered images are saved to `projects/<project-name>/img/renders/` with the same filename as the STL but with a `.png` extension.
+
+### Removing EXIF Data
+
+The flake includes a `strip-exif` script that removes all EXIF metadata (including GPS coordinates and other sensitive information) from JPG/JPEG files in the repository. This is useful before committing photos to prevent accidentally sharing location data or other private information.
+
+```bash
+# Remove EXIF data from all JPG/JPEG images
+strip-exif
+```
+
+The script processes all `.jpg` and `.jpeg` files in project directories (excluding `projects/lib`) and removes metadata in-place.
 
 ## Usage
 

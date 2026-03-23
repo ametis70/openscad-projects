@@ -23,6 +23,12 @@
           BLEND_FILE="$PWD/util/renderTemplate.blend"
           CONVERT_SCRIPT="$PWD/util/stl-render-tool/convertstl.py"
 
+          # Parse command line arguments
+          PROJECT_FILTER=""
+          if [ $# -gt 0 ]; then
+            PROJECT_FILTER="$1"
+          fi
+
           # Check if required files exist
           if [ ! -f "$BLEND_FILE" ]; then
             echo "Error: Blender template not found at $BLEND_FILE"
@@ -35,6 +41,9 @@
           fi
 
           echo "Starting STL rendering..."
+          if [ -n "$PROJECT_FILTER" ]; then
+            echo "Filtering for project: $PROJECT_FILTER"
+          fi
           echo ""
 
           # Hardcoded list of STL files to render with their settings
@@ -42,11 +51,21 @@
           declare -a renders=(
             "projects/keyhole-pegboard-adapter|example_holes.stl|135|Default"
             "projects/keyhole-pegboard-adapter|example_pegs.stl|45|Default"
+            "projects/mate-base|mate-base.stl|0|Default"
           )
 
           # Render each STL file
+          rendered_count=0
           for render in "''${renders[@]}"; do
             IFS='|' read -r project_dir filename z_rotation material_name <<< "$render"
+            
+            # Filter by project if specified
+            if [ -n "$PROJECT_FILTER" ]; then
+              project_name=$(basename "$project_dir")
+              if [ "$project_name" != "$PROJECT_FILTER" ]; then
+                continue
+              fi
+            fi
             
             # Construct paths
             stl_path="$PWD/$project_dir/output/$filename"
@@ -74,19 +93,67 @@
             
             echo "  ✓ Done"
             echo ""
+            rendered_count=$((rendered_count + 1))
           done
 
-          echo "All renders completed!"
+          if [ $rendered_count -eq 0 ]; then
+            if [ -n "$PROJECT_FILTER" ]; then
+              echo "No renders found for project: $PROJECT_FILTER"
+            else
+              echo "No renders completed!"
+            fi
+            exit 1
+          else
+            echo "All renders completed! ($rendered_count file(s))"
+          fi
+        '';
+
+        stripExifScript = pkgs.writeShellScriptBin "strip-exif" ''
+          set -e
+
+          # Find all JPG/JPEG image files in project directories (excluding lib)
+          echo "Searching for JPG/JPEG files with EXIF data in project directories..."
+          echo ""
+
+          image_count=0
+          stripped_count=0
+
+          # Find all jpg and jpeg files in projects subdirectories, excluding lib
+          while IFS= read -r -d "" file; do
+            image_count=$((image_count + 1))
+            
+            echo "Processing: $file"
+            
+            # Strip all EXIF data
+            ${pkgs.exiftool}/bin/exiftool -all= -overwrite_original "$file"
+            
+            if [ $? -eq 0 ]; then
+              stripped_count=$((stripped_count + 1))
+              echo "  ✓ EXIF data removed"
+            else
+              echo "  ✗ Failed to remove EXIF data"
+            fi
+            echo ""
+          done < <(find projects -mindepth 1 -maxdepth 1 -type d ! -name "lib" -exec find {} -type f \( -iname "*.jpg" -o -iname "*.jpeg" \) -print0 \;)
+
+          if [ $image_count -eq 0 ]; then
+            echo "No JPG/JPEG files found in project directories"
+          else
+            echo "Processed $stripped_count of $image_count image(s)"
+          fi
         '';
       in
       {
         packages.render-stls = renderScript;
+        packages.strip-exif = stripExifScript;
 
         devShells.default = pkgs.mkShell {
           buildInputs = with pkgs; [
             openscad
             blender
+            exiftool
             renderScript
+            stripExifScript
           ];
 
           shellHook = ''
@@ -94,7 +161,10 @@
             echo "Available tools:"
             echo "  - openscad: $(openscad --version 2>&1 | head -n1)"
             echo "  - blender: $(blender --version | head -n1)"
-            echo "  - render-stls: Render all STL files to PNG"
+            echo "  - render-stls [project]: Render STL files to PNG"
+            echo "    Usage: render-stls                    # Render all projects"
+            echo "           render-stls keyhole-pegboard-adapter  # Render specific project"
+            echo "  - strip-exif: Remove EXIF data from all images"
           '';
         };
       }
