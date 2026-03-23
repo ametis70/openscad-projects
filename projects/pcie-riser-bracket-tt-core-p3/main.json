@@ -1,0 +1,20 @@
+{
+  "parameterSets": {
+    "Cooler Master PCIe 4": {
+      "$fn": "64",
+      "add_vertical_bracket": "false",
+      "horizontal_mount_1_x": "19.5",
+      "horizontal_mount_1_y": "24.5",
+      "horizontal_mount_2_x": "137",
+      "horizontal_mount_2_y": "24.5",
+      "pci_mount1_vertical_x": "4.2",
+      "pci_mount1_vertical_y": "6",
+      "pci_mount2_vertical_x": "107",
+      "pci_mount2_vertical_y": "6",
+      "screw_hole_oversize": "-0.5",
+      "use_standoffs_horizontal": "true",
+      "use_standoffs_vertical": "false"
+    }
+  },
+  "fileFormatVersion": "1"
+}

@@ -52,6 +52,8 @@
             "projects/keyhole-pegboard-adapter|example_holes.stl|135|Default"
             "projects/keyhole-pegboard-adapter|example_pegs.stl|45|Default"
             "projects/mate-base|mate-base.stl|0|Default"
+            "projects/pcie-tt-plate|default.stl|45|Default"
+            "projects/pcie-tt-plate|cooler_master_pcie4.stl|45|Default"
           )
 
           # Render each STL file

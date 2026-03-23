@@ -14,6 +14,7 @@ designed in [OpenSCAD](https://openscad.org) using [BOSL2](https://github.com/Be
 
 - **[keyhole-pegboard-adapter](projects/keyhole-pegboard-adapter/)** — Customizable adapters for mounting devices to keyhole pegboard systems
 - **[mate-base](projects/mate-base/)** — Twisted, tapered holder base for mate and similar cylindrical containers
+- **[pcie-riser-bracket-tt-core-p3](projects/pcie-riser-bracket-tt-core-p3/)** — Parametric vertical GPU mounting bracket for Thermaltake Core P3 case
 
 ## Dependencies
 
