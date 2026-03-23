@@ -1,6 +1,7 @@
-[submodule "lib/BOSL2"]
-	path = projects/lib/lib/BOSL2
+[submodule "projects/lib/BOSL2"]
+	path = projects/lib/BOSL2
 	url = https://github.com/BelfrySCAD/BOSL2
 [submodule "util/stl-render-tool"]
 	path = util/stl-render-tool
 	url = https://github.com/TheZingo/stl-render-tool
+
