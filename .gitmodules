@@ -5,3 +5,6 @@
 	path = util/stl-render-tool
 	url = https://github.com/TheZingo/stl-render-tool
 
+[submodule "projects/wall-outlet-rj45/lib/RJ45KeystoneReceiver"]
+	path = projects/wall-outlet-rj45/lib/RJ45KeystoneReceiver
+	url = https://github.com/marcuswu/RJ45KeystoneReceiver/

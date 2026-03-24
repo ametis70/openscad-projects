@@ -57,6 +57,7 @@
             "projects/under-desk-holder|benq.stl|45|Default"
             "projects/under-desk-holder|nexode.stl|135|Default"
             "projects/keyhole-pegboard-spool-holder|main.stl|45|Default"
+            "projects/wall-outlet-rj45|main.stl|45|Default"
           )
 
           # Render each STL file
@@ -116,33 +117,73 @@
         stripExifScript = pkgs.writeShellScriptBin "strip-exif" ''
           set -e
 
+          # Parse command line arguments
+          PROJECT_FILTER=""
+          if [ $# -gt 0 ]; then
+            PROJECT_FILTER="$1"
+          fi
+
           # Find all JPG/JPEG image files in project directories (excluding lib)
           echo "Searching for JPG/JPEG files with EXIF data in project directories..."
+          if [ -n "$PROJECT_FILTER" ]; then
+            echo "Filtering for project: $PROJECT_FILTER"
+          fi
           echo ""
 
           image_count=0
           stripped_count=0
 
-          # Find all jpg and jpeg files in projects subdirectories, excluding lib
-          while IFS= read -r -d "" file; do
-            image_count=$((image_count + 1))
-            
-            echo "Processing: $file"
-            
-            # Strip all EXIF data
-            ${pkgs.exiftool}/bin/exiftool -all= -overwrite_original "$file"
-            
-            if [ $? -eq 0 ]; then
-              stripped_count=$((stripped_count + 1))
-              echo "  ✓ EXIF data removed"
-            else
-              echo "  ✗ Failed to remove EXIF data"
+          # Build find command based on whether project filter is specified
+          if [ -n "$PROJECT_FILTER" ]; then
+            # Check if project directory exists
+            if [ ! -d "projects/$PROJECT_FILTER" ]; then
+              echo "Error: Project directory not found: projects/$PROJECT_FILTER"
+              exit 1
             fi
-            echo ""
-          done < <(find projects -mindepth 1 -maxdepth 1 -type d ! -name "lib" -exec find {} -type f \( -iname "*.jpg" -o -iname "*.jpeg" \) -print0 \;)
+
+            # Find jpg and jpeg files only in the specified project
+            while IFS= read -r -d "" file; do
+              image_count=$((image_count + 1))
+
+              echo "Processing: $file"
+
+              # Strip all EXIF data
+              ${pkgs.exiftool}/bin/exiftool -all= -overwrite_original "$file"
+
+              if [ $? -eq 0 ]; then
+                stripped_count=$((stripped_count + 1))
+                echo "  ✓ EXIF data removed"
+              else
+                echo "  ✗ Failed to remove EXIF data"
+              fi
+              echo ""
+            done < <(find "projects/$PROJECT_FILTER" -type f \( -iname "*.jpg" -o -iname "*.jpeg" \) -print0)
+          else
+            # Find all jpg and jpeg files in projects subdirectories, excluding lib
+            while IFS= read -r -d "" file; do
+              image_count=$((image_count + 1))
+
+              echo "Processing: $file"
+
+              # Strip all EXIF data
+              ${pkgs.exiftool}/bin/exiftool -all= -overwrite_original "$file"
+
+              if [ $? -eq 0 ]; then
+                stripped_count=$((stripped_count + 1))
+                echo "  ✓ EXIF data removed"
+              else
+                echo "  ✗ Failed to remove EXIF data"
+              fi
+              echo ""
+            done < <(find projects -mindepth 1 -maxdepth 1 -type d ! -name "lib" -exec find {} -type f \( -iname "*.jpg" -o -iname "*.jpeg" \) -print0 \;)
+          fi
 
           if [ $image_count -eq 0 ]; then
-            echo "No JPG/JPEG files found in project directories"
+            if [ -n "$PROJECT_FILTER" ]; then
+              echo "No JPG/JPEG files found in project: $PROJECT_FILTER"
+            else
+              echo "No JPG/JPEG files found in project directories"
+            fi
           else
             echo "Processed $stripped_count of $image_count image(s)"
           fi
@@ -169,7 +210,9 @@
             echo "  - render-stls [project]: Render STL files to PNG"
             echo "    Usage: render-stls                    # Render all projects"
             echo "           render-stls keyhole-pegboard-adapter  # Render specific project"
-            echo "  - strip-exif: Remove EXIF data from all images"
+            echo "  - strip-exif [project]: Remove EXIF data from images"
+            echo "    Usage: strip-exif                     # Strip EXIF from all projects"
+            echo "           strip-exif wall-outlet-rj45    # Strip EXIF from specific project"
           '';
         };
       }
